@@ -51,13 +51,12 @@ class LoginController extends Controller
 
             $user->auth_token = $token;
             $user->save();
-            
-            $cookie = cookie('auth_token');
-            
+           
+            $cookie = cookie('auth_token', $token, 60 * 24);
             return redirect()->route('home')->cookie($cookie);
-        
+
         } catch (\Exception $e) {
-           return redirect()->route('error', ['message' => $e->getMessage()]);
+            return redirect()->route('error', ['message' => $e->getMessage()]);
         }
     }
 }

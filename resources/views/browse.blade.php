@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mx-auto py-8 text-white">
-    <h2 class="text-4xl font-bold mb-8 text-center">Explore Our Collection</h2>
+    <h2 class="text-4xl font-bold mb-8 text-center">{{$pageTitle}}</h2>
 
     <!-- Search Bar -->
     <div class="flex justify-center mb-8">
@@ -24,8 +24,8 @@
     <!-- Film Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         @foreach ($films as $film)
-            <a href="{{ route('films.show', $film->id) }}">
-                @include('components.film-card', [
+                <a href="{{ route('films.show', $film) }}">
+                    @include('components.film-card', [
                 'coverImageUrl' => $film->cover_image_url,
                 'title' => $film->title,
                 'description' => $film->description,

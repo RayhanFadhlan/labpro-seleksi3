@@ -34,7 +34,6 @@ class RegisterController extends Controller
                 return redirect()->route('error', ['message' => $errorMessage]);
             }
 
-            // Create the user
             $user = User::create([
                 'username' => $request->username,
                 'first_name' => $request->first_name,

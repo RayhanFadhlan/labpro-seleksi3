@@ -49,7 +49,7 @@ class AdminMidddleware
             return response()->json([
                 'status' => 'error',
                 'message' => 'Invalid token',
-                'data' => $e->getMessage()
+                'data' => null
             ], 403);
         }
 
