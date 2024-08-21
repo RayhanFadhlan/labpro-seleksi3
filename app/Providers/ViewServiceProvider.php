@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cookie;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use App\Models\User;
+use Log;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -24,8 +25,9 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Use view composers to share data with specific views
+        
         View::composer('layouts.app', function ($view) {
+            Log::info('Endpoint accessed: layouts.app');
             $authToken = Cookie::get('auth_token');
             $user = null;
 

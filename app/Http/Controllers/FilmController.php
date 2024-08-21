@@ -10,12 +10,14 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Illuminate\Support\Facades\Log;
 class FilmController extends Controller
 {
 
 
     public function browse(Request $request)
     {
+        Log::info('Endpoint accessed: browse');
         try {
             $query = $request->input('q');
 
@@ -36,11 +38,13 @@ class FilmController extends Controller
 
     public function hasPurchased($userId, $filmId)
     {
+        Log::info('Endpoint accessed: hasPurchased');
         return Transaction::where('user_id', $userId)->where('film_id', $filmId)->exists();
     }
 
     public function show(Request $request, Film $film)
     {
+        Log::info('Endpoint accessed: show');
         try {
             $token = $request->cookie('auth_token');
             if (!$token) {
@@ -61,7 +65,9 @@ class FilmController extends Controller
 
     public function buy(Request $request, Film $film)
     {
+        Log::info('Endpoint accessed: buy');
         try {
+            
 
             $userId = $request->input('user_id');
 
@@ -90,6 +96,7 @@ class FilmController extends Controller
     }
     public function watch(Request $request, Film $film)
     {
+        Log::info('Endpoint accessed: watch');
         try {
             $userId = $request->input('user_id');
             if (!Transaction::where('user_id', $userId)->where('film_id', $film->id)->exists()) {
@@ -103,6 +110,7 @@ class FilmController extends Controller
     }
     public function dashboard(Request $request)
     {
+        Log::info('Endpoint accessed: dashboard');
         try {
             $userId = $request->input('user_id');
 
