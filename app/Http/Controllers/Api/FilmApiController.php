@@ -37,7 +37,7 @@ use Illuminate\Support\Str;
  *         @OA\Property(property="updated_at", type="string", format="date-time")
  *     }
  * )
-  * @OA\SecurityScheme(
+ * @OA\SecurityScheme(
  *     type="http",
  *     description="Use a valid token to access the endpoints",
  *     name="Authorization",
@@ -155,6 +155,12 @@ class FilmApiController extends Controller
             $videoPath = $request->file('video')->store('videos');
             $coverImagePath = $request->file('cover_image') ? $request->file('cover_image')->store('images') : null;
 
+            $cloudflareR2Url = env('CLOUDFLARE_R2_URL');
+
+
+            $fullVideoUrl = $cloudflareR2Url . $videoPath;
+            $fullCoverImageUrl = $coverImagePath ? $cloudflareR2Url . $coverImagePath : null;
+
             $film = Film::create([
                 'id' => (string) Str::uuid(),
                 'title' => $request->title,
@@ -163,8 +169,8 @@ class FilmApiController extends Controller
                 'release_year' => $request->release_year,
                 'price' => $request->price,
                 'duration' => $request->duration,
-                'cover_image_url' => $coverImagePath,
-                'video_url' => $videoPath,
+                'cover_image_url' => $fullCoverImageUrl,
+                'video_url' => $fullVideoUrl,
             ]);
 
             $genreIds = [];
@@ -306,22 +312,28 @@ class FilmApiController extends Controller
                 'cover_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg'
             ]);
 
+            $cloudflareR2Url = env('CLOUDFLARE_R2_URL');
+
             if ($request->hasFile('video')) {
                 if ($film->video_url) {
-                    Storage::delete($film->video_url);
+                    $videoPath = str_replace($cloudflareR2Url, '', $film->video_url);
+                    Storage::disk('r2')->delete($videoPath);
                 }
                 $videoPath = $request->file('video')->store('videos');
+                $fullVideoUrl = $cloudflareR2Url . $videoPath;
             } else {
-                $videoPath = $film->video_url;
+                $fullVideoUrl = $film->video_url;
             }
 
             if ($request->hasFile('cover_image')) {
                 if ($film->cover_image_url) {
-                    Storage::delete($film->cover_image_url);
+                    $coverImagePath = str_replace($cloudflareR2Url, '', $film->cover_image_url);
+                    Storage::disk('r2')->delete($coverImagePath);
                 }
                 $coverImagePath = $request->file('cover_image')->store('images');
+                $fullCoverImageUrl = $cloudflareR2Url . $coverImagePath;
             } else {
-                $coverImagePath = $film->cover_image_url;
+                $fullCoverImageUrl = $film->cover_image_url;
             }
 
             $film->update([
@@ -331,8 +343,8 @@ class FilmApiController extends Controller
                 'release_year' => $request->release_year,
                 'price' => $request->price,
                 'duration' => $request->duration,
-                'cover_image_url' => $coverImagePath,
-                'video_url' => $videoPath,
+                'cover_image_url' => $fullCoverImageUrl,
+                'video_url' => $fullVideoUrl,
             ]);
 
             $genreIds = [];
@@ -400,11 +412,14 @@ class FilmApiController extends Controller
                 ], 404);
             }
 
+            $cloudflareR2Url = env('CLOUDFLARE_R2_URL');
             if ($film->video_url) {
-                Storage::delete($film->video_url);
+                $videoPath = str_replace($cloudflareR2Url, '', $film->video_url);
+                Storage::delete($videoPath);
             }
             if ($film->cover_image_url) {
-                Storage::delete($film->cover_image_url);
+                $coverImagePath = str_replace($cloudflareR2Url, '', $film->cover_image_url);
+                Storage::delete($coverImagePath);
             }
 
             $filmData = $this->getFilmData($film);

@@ -37,7 +37,7 @@ class AdminMidddleware
         }
 
         $decoded = $validationResult['decoded'];
-        if ($decoded->role !== 'user') {
+        if ($decoded->role !== 'admin') {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Unauthorized: Admins only',
