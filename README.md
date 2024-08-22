@@ -25,10 +25,15 @@ localhost:8000
 atau
 127.0.0.1:8000
 
-API endpoint dapat diakses pada
+5. API endpoint dapat diakses pada
 localhost:8000/api
 atau
 127.0.0.1:8000/api
+
+6. Untuk menggunakan akun admin, dapat menggunakan credentials
+username: admin
+password: admin123
+
 
 ## Design pattern
 
@@ -377,6 +382,23 @@ Dokumentasi API dibuat menggunakan swagger dan dapat diakses pada
 ```
 localhost:8000/api/documentation
 ```
+
+### B08 - SOLID
+1. Single Responsibility Principle:
+Setiap kelas hanya mempunyai satu tujuan, yaitu seperti pada model, view, dan controller. Model digunakan untuk mendefinisikan database dan relasinya dengan model lain. Controller digunakan untuk  menangani permintaan dari pengguna, memproses data melalui model, dan mengembalikan respons. Lalu views digunakan untuk menampilkan hasil pemrosesan tersebut ke pengguna.
+
+2. Open Closed Principle
+Open/Closed Principle (OCP) menyatakan bahwa sebuah perangkat lunak harus terbuka untuk pengembangan (extension) tetapi tertutup untuk perubahan (modification). Artinya, perilaku sebuah kelas harus bisa diperluas tanpa mengubah kode yang sudah ada. Salah satu contoh penggunaannya disini adalah pada kelas-kelas API, kita dapat menambahkan fitur API baru tanpa memodifikasi API yang sudah ada.
+
+3. Liskov Substitution Principle
+Liskov Substitution Principle (LSP) menyatakan bahwa objek-objek dari sebuah superclass harus dapat digantikan dengan objek-objek dari subclass-nya tanpa memengaruhi kebenaran program. Contoh dari penerapannya adalah pembuatan validation checking dimana kelas JwtBearerTokenValidationStrategy dapat digantikan dengan kelas lain yang mengimplementasi TokenValidationStrategy dan memastikan sistem tetap berjalan dengan semestinya.
+
+4. Interface Segregation Principle
+Interface Segregation Principle menyatakan bahwa klien tidak boleh dipaksa mengimplementasi interface yang tidak digunakan. artinya lebih baik memiliki banyak interface tetapi dengan kebutuhan yang lebih spesifik. Pada project ini ISP digunakan pada token validation strategy dimana itu merupakan sebuah interface dan terdapat kelas-kelas lain yang mengimplementasi interface tersebut
+
+5. Dependency Inversion Principle
+Dependency Inversion Principle menyatakan bahwa high level module tidak boleh bergantung kepada low level module. Implementasi hal ini adalah pada kelas-kelas factory dimana Subclass dari factory (FilmFactory, UserFactory) bergantung kepada kelas factory, tidak sebaliknya
+ 
 
 ### B11 - Ember
 Implementasi Bucket menggunakan cloudflare R2 untuk menyimpan image cover film serta video film.
