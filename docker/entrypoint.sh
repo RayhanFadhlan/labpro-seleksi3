@@ -9,6 +9,8 @@ composer install --no-progress --no-interaction
 # fi
 
 php artisan migrate
+npm install
+npm run build
 php artisan key:generate
 php artisan cache:clear
 php artisan config:clear
