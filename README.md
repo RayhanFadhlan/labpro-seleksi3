@@ -37,11 +37,15 @@ beberapa design pattern yang saya gunakan adalah
 1. Strategy design pattern
 
 Strategy design pattern saya gunakan dalam mengelompokkan algoritma dengan fungsi yang sama, yaitu dalam memvalidasi token authentication. Strategi pertama digunakan untuk memvalidasi token yang didapat dari cookies, strategi ini digunakan di website monolith karena token yang diberikan disimpan pada cookies. Strategi yang kedua digunakan untuk memvalidasi token yang disimpan pada header request di yang digunakan di REST API.
-![strategy](public/docs/strategy.png)
+
+![strategy](public/docs/strategy.png)   
+
 
 2. Factory method design pattern
 
 Factory method design pattern saya gunakan dalam membuat factory masing-masing faker model yang nantinya dipakai dalam proses seeding database.
+
+
 ![factory](public/docs/factory.png)
 
 3. Builder design pattern
@@ -346,24 +350,24 @@ Website ini dibangun menggunakan bahasa PHP dengan framework Laravel. PHP yang d
 Sistem polling dibuat pada halaman browse films, ketika admin menambahkan film, maka user yang sedang membuka page tersebut dapat langsung melihat film yang baru tanpa melakukan refresh. Data diambil setiap 5 detik
 
 ### B05 - Lighthouse
+
 - Browse page
-![browse](public/docs/lighthouse-browse.png)
+<img src="public/docs/lighthouse-browse.png" alt="browse" style="max-width: 100%; height: auto;">
 
 - Detail film page
-![detail](public/docs/lighthouse-detail.png)
+<img src="public/docs/lighthouse-detail.png" alt="detail" style="max-width: 100%; height: auto;">
 
 - Dashboard page
-![dashboard](public/docs/lighthouse-dashboard.png)
+<img src="public/docs/lighthouse-dashboard.png" alt="dashboard" style="max-width: 100%; height: auto;">
 
 - Watch film page
-![watch](public/docs/lighthouse-watch.png)
+<img src="public/docs/lighthouse-watch.png" alt="watch" style="max-width: 100%; height: auto;">
 
 - Login page
-![login](public/docs/lighthouse-login.png)
+<img src="public/docs/lighthouse-login.png" alt="login" style="max-width: 100%; height: auto;">
 
 - Register page
-![register](public/docs/lighthouse-register.png)
-
+<img src="public/docs/lighthouse-register.png" alt="register" style="max-width: 100%; height: auto;">
 
 ### B06 - Responsive Layout
 Layout responsive baik pada mobile maupun desktop di seluruh page
