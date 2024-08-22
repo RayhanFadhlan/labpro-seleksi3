@@ -1,7 +1,7 @@
 <div class="film-card bg-gray-900 p-4 shadow-md rounded-lg transition-transform duration-300 transform hover:scale-105">
     <div class="relative">
         <!-- Cover Image -->
-        <img src="{{ $coverImageUrl }}" alt="Cover Image" class="w-full h-full  object-cover rounded-md">
+        <img src="{{ $coverImageUrl }}" alt="Cover Image" class="w-full h-full  object-cover rounded-md" onerror="this.onerror=null;this.src='/samples/sample_image.png';">
 
         <!-- Gradient Overlay and Title -->
         <div

@@ -17,24 +17,19 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        // DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-
-        // DB::table('film_genre')->truncate();
-        // DB::table('films')->truncate();
-        // DB::table('genres')->truncate();
-
-
-        // DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-
-        // $genres = Genre::factory(2)->create();
-
-
-        // Film::factory(10)
-        //     ->hasAttached($genres->random(2))
-        //     ->create();
-
+        User::create([
+            'id' => (string) Str::uuid(),
+            'username' => 'user',
+            'email' => 'user@example.com',
+            'first_name' => 'User',
+            'last_name' => 'User',
+            'password' => bcrypt('user12345'),
+            'balance' => 1000000,
+            'auth_token' => null,
+            'role' => 'admin',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
         User::create([
             'id' => (string) Str::uuid(),
             'username' => 'admin',
@@ -48,6 +43,17 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        // User::factory(10)->create();
+
+        $genres = Genre::factory(8)->create();
+        $films = Film::factory(15)->create();
+        
+        $films->each(function ($film) use ($genres) {
+            $film->genres()->attach(
+                $genres->random(3)->pluck('id')->toArray()
+            );
+        });
+        
+        
+        
     }
 }

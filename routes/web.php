@@ -6,9 +6,6 @@ use App\Http\Middleware\UserMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FilmController;
 
-// Route::get('/', function () {
-//   return view('welcome');
-// })->name('browse');
 
 Route::get('/error', function () {
   return view('error.error');
@@ -27,7 +24,7 @@ Route::get('/films/{film}', [FilmController::class, 'show'])->name('films.show')
 
 Route::get('/films/{film}/watch', [FilmController::class, 'watch'])->name('films.watch');
 
-Route::get('/poll-films', [FilmController::class, 'pollFilms']);
+Route::get('/poll-films', [FilmController::class, 'pollFilms'])->name('poll.films');
 
 Route::middleware([UserMiddleware::class])->group(function () {
 

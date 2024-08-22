@@ -67,7 +67,7 @@ class FilmController extends Controller
     {
         Log::info('Endpoint accessed: buy');
         try {
-            
+
 
             $userId = $request->input('user_id');
 
@@ -126,6 +126,37 @@ class FilmController extends Controller
             return view('browse', ['films' => $films, 'pageTitle' => 'Your Purchased Films']);
         } catch (\Exception $e) {
             return redirect()->route('error', ['message' => $e->getMessage()]);
+        }
+    }
+
+    public function pollFilms(Request $request)
+    {
+        try {
+            $lastCheckTime = $request->input('last_check_time');
+            $newFilms = Film::where('updated_at', '>', $lastCheckTime)->get();
+
+            if ($newFilms->isEmpty()) {
+                return response()->json(['status' => 'no_new_films']);
+            }   
+
+            $filmCards = '';
+            foreach ($newFilms as $film) {
+                $filmCards .= view('components.film-card', [
+                    'coverImageUrl' => $film->cover_image_url,
+                    'title' => $film->title,
+                    'description' => $film->description,
+                    'director' => $film->director,
+                    'genres' => $film->genres->pluck('name')->join(', '),
+                    'price' => $film->price,
+                ])->render();
+            }
+            return response()->json([
+                'status' => 'new_films',
+                'filmCards' => $filmCards,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Polling error: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
 }

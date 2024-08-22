@@ -148,8 +148,8 @@ class FilmApiController extends Controller
                 'genre.*' => 'required|string',
                 'price' => 'required|numeric',
                 'duration' => 'required|integer',
-                'video' => 'required|file|mimes:mp4,mov,avi,flv,mkv',
-                'cover_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg'
+                'video' => 'required|file|mimes:mp4,mov,avi,flv,mkv|max:102400',
+                'cover_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg|max:10000'
             ]);
 
             $videoPath = $request->file('video')->store('videos');
