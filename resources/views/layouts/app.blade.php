@@ -5,27 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/app.css'])
+    <meta name="description"
+        content="Website untuk membeli film dan menonton film, mirip netflix.">
     <title>@yield('title', 'Film Labpro')</title>
 </head>
 
 <body class="bg-gray-900 text-white">
 
-    
-    <nav class="p-4 bg-gray-800">
-        <a href="/" class="text-white">Home</a>
-        <a href="/browse" class="ml-4 text-white">Browse Films</a>
-        @if ($user)
-            <a href="/dashboard" class="ml-4 text-white">Dashboard</a>
-            <a href="/logout" class="ml-4 text-white">Logout</a>
-            <span class="ml-4 text-white">Hello, {{ $user->username }}</span>
-            <span class="ml-4 text-white">Balance: {{ $user->balance }}</span>
-        @else
-            <a href="/login" class="ml-4 text-white">Login</a>
-            <a href="/register" class="ml-4 text-white">Register</a>
-        @endif
-
+    <nav class="p-4 bg-gray-800 flex justify-between">
+        <div>
+        
+            <a href="/" class="ml-4 text-white">Browse Films</a>
+            @if ($user)
+                <a href="/dashboard" class="ml-4 text-white">Dashboard</a>
+            @endif
+        </div>
+        <div class="flex items-center">
+            @if ($user)
+                <span class="ml-4 text-white">Balance: {{ $user->balance }}</span>
+                <span class="ml-4 text-white">{{ $user->username }}</span>
+                <form action="{{ route('logout') }}" method="POST" class="inline ml-4">
+                    @csrf
+                    <button type="submit" class="text-white">Logout</button>
+                </form>
+            @else
+                <a href="/login" class="ml-4 text-white">Login</a>
+                <a href="/register" class="ml-4 text-white">Register</a>
+            @endif
+        </div>
     </nav>
-
 
     <div class="container mx-auto p-4">
         @if(session('message'))

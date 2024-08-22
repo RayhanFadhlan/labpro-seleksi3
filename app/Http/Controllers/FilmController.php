@@ -87,7 +87,7 @@ class FilmController extends Controller
                 'film_id' => $film->id,
             ]);
 
-            return redirect()->route('home')->with('success', 'Film purchased successfully');
+            return redirect()->route('browse')->with('success', 'Film purchased successfully');
 
         } catch (\Exception $e) {
             return redirect()->route('error', ['message' => $e->getMessage()]);
