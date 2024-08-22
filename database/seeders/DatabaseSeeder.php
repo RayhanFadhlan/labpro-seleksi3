@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $genres = Genre::factory(8)->create();
-        $films = Film::factory(15)->create();
+        $films = Film::factory(10)->create();
         
         $films->each(function ($film) use ($genres) {
             $film->genres()->attach(

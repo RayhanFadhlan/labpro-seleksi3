@@ -3,9 +3,11 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+
 use App\Models\Film;
 use App\Models\Genre;
-use Storage;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Film>
@@ -20,12 +22,17 @@ class FilmFactory extends Factory
 
     public function definition(): array
     {
-        $image = $this->faker->image(storage_path('app/images'), 480, 640, null, false);
-        $imagePath = 'images/' . $image;
+        $cloudflareR2Url = env('CLOUDFLARE_R2_URL');
 
-        $sourceVideo = 'samples/sample_video.mp4';
-        $destinationVideo = 'videos/' . $this->faker->uuid . '.mp4';
-        Storage::copy($sourceVideo,  $destinationVideo);
+    
+        $tempImage = public_path('/samples/sample_image.png');
+        $coverImagePath = Storage::disk()->putFile('images', new File($tempImage));
+        $fullCoverImageUrl = $cloudflareR2Url .  $coverImagePath;
+
+        
+        $tempVideo = public_path('/samples/sample_video.mp4');
+        $videoPath = Storage::disk('r2')->putFile('videos', $tempVideo);
+        $fullVideoUrl = $cloudflareR2Url . $videoPath;
 
         return [
             'title' => $this->faker->sentence,
@@ -34,8 +41,8 @@ class FilmFactory extends Factory
             'release_year' => $this->faker->year,
             'price' => $this->faker->numberBetween(20, 300) * 1000,
             'duration' => $this->faker->numberBetween(60, 180) * 60,
-            'cover_image_url' => $imagePath,
-            'video_url' => $destinationVideo,
+            'cover_image_url' => $fullCoverImageUrl,
+            'video_url' => $fullVideoUrl,
         ];
-    }   
+    }
 }

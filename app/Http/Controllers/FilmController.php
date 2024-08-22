@@ -21,14 +21,16 @@ class FilmController extends Controller
         try {
             $query = $request->input('q');
 
-            $filmsQuery = Film::with('genres')
-                ->where('title', 'like', '%' . $query . '%')
-                ->orWhere('director', 'like', '%' . $query . '%');
-
             $perPage = 8;
             $currentPage = $request->input('page', 1);
+            
+            $films = Film::with('genres')
+                ->where('title', 'like', '%' . $query . '%')
+                ->orWhere('director', 'like', '%' . $query . '%')
+                ->paginate($perPage, ['*'], 'page', $currentPage);
 
-            $films = $filmsQuery->paginate($perPage, ['*'], 'page', $currentPage);
+
+            
 
             return view('browse', ['films' => $films], ['pageTitle' => 'Browse Films']);
         } catch (\Exception $e) {
@@ -117,11 +119,14 @@ class FilmController extends Controller
             $transactions = Transaction::where('user_id', $userId)->get();
 
             $filmIds = $transactions->pluck('film_id');
-            $filmsQuery = Film::whereIn('id', $filmIds);
 
             $perPage = 8;
             $currentPage = $request->input('page', 1);
-            $films = $filmsQuery->paginate($perPage, ['*'], 'page', $currentPage);
+
+            $films = Film::whereIn('id', $filmIds)
+            ->paginate($perPage, ['*'], 'page', $currentPage);
+
+            
 
             return view('browse', ['films' => $films, 'pageTitle' => 'Your Purchased Films']);
         } catch (\Exception $e) {

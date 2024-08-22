@@ -6,5 +6,5 @@ use Illuminate\Http\Request;
 
 interface TokenValidationStrategy
 {
-    public function validate(Request $request) : array;
+    public function validate(Request $request): array;
 }
