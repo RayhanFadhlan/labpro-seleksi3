@@ -2,7 +2,7 @@
         <!-- Cover Image -->
         <div class="w-full lg:w-1/3">
             <img src="{{ asset($film->cover_image_url) }}" alt="{{ $film->title }}"
-                class="w-full h-full object-cover lg:h-[500px]">
+                class="w-full h-full object-cover lg:h-[500px]" onerror="this.onerror=null;this.src='/samples/sample_image.png';">
         </div>
 
         <!-- Film Details -->

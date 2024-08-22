@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Firebase\JWT\JWT;
 
 
@@ -51,12 +52,19 @@ class LoginController extends Controller
 
             $user->auth_token = $token;
             $user->save();
-           
+
             $cookie = cookie('auth_token', $token, 60 * 24);
-            return redirect()->route('home')->cookie($cookie);
+            return redirect()->route('browse')->cookie($cookie);
 
         } catch (\Exception $e) {
             return redirect()->route('error', ['message' => $e->getMessage()]);
         }
+    }
+    public function logout(Request $request)
+    {
+        Cookie::queue(Cookie::forget('auth_token'));
+
+        
+        return redirect()->route('login')->with('message', 'You have been logged out.');
     }
 }

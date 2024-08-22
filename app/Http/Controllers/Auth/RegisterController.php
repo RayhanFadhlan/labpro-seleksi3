@@ -42,7 +42,7 @@ class RegisterController extends Controller
 
                 'password' => bcrypt($request->password),
             ]);
-            return redirect()->route('home')->with('success', '');
+            return redirect()->route('login')->with('success', '');
 
         } catch (\Exception $e) {
             return redirect()->route('error', ['message' => $e->getMessage()]);
