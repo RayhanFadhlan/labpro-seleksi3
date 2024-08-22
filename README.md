@@ -341,3 +341,38 @@ Website ini dibangun menggunakan bahasa PHP dengan framework Laravel. PHP yang d
 }
 ```
 
+## Bonus
+### B03 - Polling
+Sistem polling dibuat pada halaman browse films, ketika admin menambahkan film, maka user yang sedang membuka page tersebut dapat langsung melihat film yang baru tanpa melakukan refresh. Data diambil setiap 5 detik
+
+### B05 - Lighthouse
+- Browse page
+![browse](public/docs/lighthouse-browse.png)
+
+- Detail film page
+![detail](public/docs/lighthouse-detail.png)
+
+- Dashboard page
+![dashboard](public/docs/lighthouse-dashboard.png)
+
+- Watch film page
+![watch](public/docs/lighthouse-watch.png)
+
+- Login page
+![login](public/docs/lighthouse-login.png)
+
+- Register page
+![register](public/docs/lighthouse-register.png)
+
+
+### B06 - Responsive Layout
+Layout responsive baik pada mobile maupun desktop di seluruh page
+
+### B07 - Dokumentasi api
+Dokumentasi API dibuat menggunakan swagger dan dapat diakses pada 
+```
+localhost:8000/api/documentation
+```
+
+### B11 - Ember
+Implementasi Bucket menggunakan cloudflare R2 untuk menyimpan image cover film serta video film.
